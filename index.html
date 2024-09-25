@@ -28,13 +28,26 @@
     <!-- v-cloak prevent the rendering all the contents when refreshing -->
     <div id="app" v-cloak>
         {{greeting}}
-        <input v-model="greeting"/>
+        <input @keyup.enter="greet(greeting)" v-model="greeting"/>
 
         <hr/>
         <!-- V-if and v-show is the same but if v-show is false it will still render the data with display none -->
         <div v-if="isVisible" class="box"></div>
         <div v-else-if="isVisible2" class="box two"></div>
         <div v-else class="box three"></div>
+
+        <hr/>
+
+        <!-- Events -->
+        <!--@click ia the same as v-on:click -->
+        <button @click="isVisibleEvent=!isVisibleEvent">Show Box</button>
+        <div v-if="isVisibleEvent" class="box"></div>
+
+        <hr/>
+
+        <!-- Methods -->
+        <button @click="ToggleEvent">Show Box</button>
+        <div v-if="isVisibleEventMethod" class="box"></div>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -44,6 +57,16 @@
                 greeting: 'Hello vue 3 !',
                 isVisible: false,
                 isVisible2:false,
+                isVisibleEvent: false,
+                isVisibleEventMethod: false
+            }
+        },
+        methods:{
+            ToggleEvent(){
+                this.isVisibleEventMethod = !this.isVisibleEventMethod
+            },
+            greet(greeting){
+                console.log(greeting)
             }
         }
        })
