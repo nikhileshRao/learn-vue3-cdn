@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .profile-card{
+            width: 200px;
+            height: 100px;
+            background-color: pink;
+        }
+        .profile-card p{
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .profile-name{
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <profile-card />
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+    let app = Vue.createApp({
+        data: function () {
+            return{}
+        },})
+    app.component('profile-card', {
+        template: `
+            <div class="profile-card">
+                <profile-name :Lastname="Lastname" :Firstname="Firstname"/>
+                <p>{{jobTitle}}</p>
+            </div>
+        `,
+        components: ['profile-name'],
+        data(){
+            return {
+                Lastname: 'Erling',
+                Firstname: 'Haland',
+                jobTitle:'Front-end Engineer'
+            }
+        }
+    })
+    app.component('profile-name',{
+        template: `
+            <h2 class="profile-name">{{Lastname}},{{Firstname}}</h2>
+        `,
+        props: ['Lastname','Firstname']
+    })
+    app.mount('#root')
+    </script>
+</body>
+</html>
