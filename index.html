@@ -22,6 +22,11 @@
         [v-cloak] {
             display: none;
         }
+
+        input{
+            display: block;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +53,10 @@
         <!-- Methods -->
         <button @click="ToggleEvent">Show Box</button>
         <div v-if="isVisibleEventMethod" class="box"></div>
+
+        <hr/>
+
+        <login-form />
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -69,6 +78,57 @@
                 console.log(greeting)
             }
         }
+       })
+    //    v-bind and :label are the same to pass the variable
+       app.component('login-form',{
+        template:`
+            <form @submit.prevent="handleSubmit">
+                <h1>{{title}}</h1>
+                <custom-input  v-model="email"  :label="emailLabel"/>
+                <custom-input v-model="password" v-bind:label="passwordLabel"/>
+                <button>Log in</button>
+            </form>
+        `,
+        components: ['custom-input'],
+        data(){
+            return{
+                title: 'Login Form',
+                email: '',
+                password: '',
+                emailLabel: 'Email',
+                passwordLabel:'Password'
+            }
+        },
+        methods:{
+            handleSubmit(){
+                console.log("Submitted", this.email , this.password)
+            }
+        }
+       })
+       app.component('custom-input',{
+        template:`
+            <label>
+                {{label}}
+                <input type="text" v-model="inputValue"/>
+            </label>
+        `,
+        props: ['label','modelValue'],
+        computed:{
+            inputValue:{
+                get(){
+                    return this.modelValue
+                },
+                set(value){
+                    console.log(value)
+                    this.$emit('update:modelValue', value)
+                }
+            }
+        },
+        // data() {
+        //     return{
+        //         inputValue: ''
+        //     }
+        // }
        })
        app.mount('#app')
     </script>
